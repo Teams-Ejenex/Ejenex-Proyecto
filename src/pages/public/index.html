@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Grupos estudiantiles | [Nombre de la escuela]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <!-- Puedes cambiarlo por una imagen <img> -->
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">Grupos estudiantiles</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="nav-link active">Inicio</a>
+      <a href="grupos.html" class="nav-link">Grupos</a>
+      <a href="about.html" class="nav-link">Nosotras</a>
+      <a href="contacto.html" class="nav-link">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- HERO / PORTADA -->
+  <main>
+    <section class="hero">
+      <div class="hero-texto">
+        <h1>Conecta con los grupos estudiantiles de Tecmilenio</h1>
+        <p>
+          Explora clubes de arte, deporte, tecnología y mucho más. Encuentra el
+          grupo ideal para ti y participa en la vida estudiantil.
+        </p>
+        <div class="hero-botones">
+          <a href="grupos.html" class="btn btn-primario">Ver todos los grupos</a>
+          <a href="#buscador" class="btn btn-secundario">Sobre Nosotros</a>
+        </div>
+      </div>
+      <div class="hero-ilustracion">
+        <img src="assets/img/imagen_inicio_ejenex.png" alt="Imagen AI" class="hero-img" />
+      </div>
+    </section>
+
+    <!-- BUSCADOR / FILTROS -->
+    <section id="buscador" class="buscador">
+      <h2>Encuentra un grupo para ti</h2>
+      <form class="buscador-form">
+        <input type="text" placeholder="Buscar por nombre o palabra clave..." class="buscador-input" />
+        <select class="buscador-select">
+          <option value="">Todas las categorías</option>
+          <option value="arte">Arte</option>
+          <option value="deporte">Deporte</option>
+          <option value="tecnologia">Tecnología</option>
+          <option value="academico">Académico</option>
+          <option value="comunidad">Comunidad</option>
+        </select>
+        <button type="submit" class="btn btn-primario">Buscar</button>
+      </form>
+    </section>
+
+    <!-- GRUPOS DESTACADOS -->
+    <section class="destacados">
+      <div class="destacados-header">
+        <h2>Grupos destacados</h2>
+        <a href="grupos.html" class="destacados-link">Ver todos &rarr;</a>
+      </div>
+
+      <div class="tarjetas-grupos">
+        <!-- Tarjeta 1 -->
+        <article class="tarjeta-grupo">
+          <h3>Club de Robótica</h3>
+          <p class="tarjeta-categoria">Tecnología</p>
+          <p class="tarjeta-descripcion">
+            Construcción de robots, programación y participación en competencias.
+          </p>
+          <a href="grupos.html" class="tarjeta-link">Ver más</a>
+        </article>
+
+        <!-- Tarjeta 2 -->
+        <article class="tarjeta-grupo">
+          <h3>Grupo de Teatro</h3>
+          <p class="tarjeta-categoria">Arte</p>
+          <p class="tarjeta-descripcion">
+            Actuación, montajes escénicos y presentaciones durante el semestre.
+          </p>
+          <a href="grupos.html" class="tarjeta-link">Ver más</a>
+        </article>
+
+        <!-- Tarjeta 3 -->
+        <article class="tarjeta-grupo">
+          <h3>Club Deportivo</h3>
+          <p class="tarjeta-categoria">Deporte</p>
+          <p class="tarjeta-descripcion">
+            Futbol, básquetbol y actividades físicas para todos los niveles.
+          </p>
+          <a href="grupos.html" class="tarjeta-link">Ver más</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Proyecto de grupos estudiantiles · Tecmilenio</p>
+    <p class="footer-creditos">
+      Desarrollado por el equipo: EJENEX
+    </p>
+  </footer>
+</body>
+
+</html>

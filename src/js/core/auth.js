@@ -9,3 +9,9 @@ Uso futuro:
 - Proteger rutas administrativas.
 - Integración con sistema de login.
 */
+
+//Control de rol Admin
+export function isAdmin() {
+  // Sprint 1: admin fijo
+  return true;
+}

@@ -9,3 +9,15 @@ Uso futuro:
 - Manejo centralizado de errores HTTP.
 - Evitar lógica de fetch directamente en la UI.
 */
+
+// Crear endpoint POST
+import { createGroupController } from './groups.controller.js';
+import { isAdmin } from '../../core/auth.js';
+
+export async function postAdminGroups(data) {
+  if (!isAdmin()) {
+    throw new Error('Acceso denegado: solo administradores');
+  }
+
+  return await createGroupController(data);
+}

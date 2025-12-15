@@ -53,3 +53,43 @@
   </div>
 </body>
 </html>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function(event) {
+    // Validación del campo de Nombre
+    let nombre = document.getElementById("nombre");
+    if (nombre.value === "") {
+      alert("El Nombre del Grupo es obligatorio");
+      event.preventDefault(); // Evita que el formulario se envíe
+      return;
+    }
+
+    // Validación del correo
+    let correo = document.getElementById("correo");
+    let correoRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!correoRegex.test(correo.value)) {
+      alert("Por favor, ingresa un correo electrónico válido.");
+      event.preventDefault();
+      return;
+    }
+
+    // Validación del campo de Descripción Breve
+    let descripcion = document.getElementById("descripcion");
+    if (descripcion.value === "") {
+      alert("La Descripción Breve es obligatoria");
+      event.preventDefault();
+      return;
+    }
+
+    // Validación de la categoría
+    let categoria = document.getElementById("categoria");
+    if (categoria.value === "") {
+      alert("Selecciona una categoría");
+      event.preventDefault();
+      return;
+    }
+
+    // Si todo está bien, el formulario se envía
+    alert("Formulario enviado con éxito");
+  });
+</script>

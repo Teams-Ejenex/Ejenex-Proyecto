@@ -1,0 +1,9 @@
+Archivo: grupos.json
+Propósito:
+Archivo de datos mock para desarrollo local.
+
+Uso futuro:
+- Será eliminado o reemplazado cuando exista conexión
+  con la base de datos real mediante API.
+- Útil solo para pruebas iniciales de UI.
+

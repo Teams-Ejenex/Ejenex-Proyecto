@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Registro</title>
+  <link rel="stylesheet" href="style.css"> <!-- Conectamos el CSS -->
+</head>
+<body>
+  <div class="form-container">
+    <h2>Información Básica del Grupo</h2>
+    <form>
+      <div class="form-group">
+        <label for="nombre">Nombre del Grupo *</label>
+        <input type="text" id="nombre" name="nombre" placeholder="user@tecmilenio.mx" required>
+        <small>Nombre oficial del grupo estudiantil</small>
+      </div>
+      <div class="form-group">
+        <label for="categoria">Categoría *</label>
+        <select id="categoria" name="categoria" required>
+          <option value="">Seleccione una categoría</option>
+          <option value="opcion 1">opcion 1</option>
+          <option value="opcion 2">opcion 2</option>
+          <option value="opcion 3">opcion 3</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción Breve *</label>
+        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente los objetivos y actividades del grupo" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="logo">Logo del grupo</label>
+        <input type="url" id="logo" name="logo" placeholder="URL de la imagen del logo">
+      </div>
+      <div class="form-group">
+        <label for="correo">Correo del grupo estudiantil *</label>
+        <input id="correo" name="correo" rows="4" placeholder="Correo ">
+      </div>
+      <div class="form-group">
+        <label for="redes">Redes Sociales</label>
+        <select id="redes" name="redes">
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+          <option value="twitter">Twitter</option>
+        </select>
+        <input type="url" id="urlRedes" name="urlRedes" placeholder="https://...">
+      </div>
+      <div class="form-actions">
+        <button type="reset" class="btn-reset">Borrar formulario</button>
+        <button type="submit" class="btn-submit">Guardar Grupo</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function(event) {
+    // Validación del campo de Nombre
+    let nombre = document.getElementById("nombre");
+    if (nombre.value === "") {
+      alert("El Nombre del Grupo es obligatorio");
+      event.preventDefault(); // Evita que el formulario se envíe
+      return;
+    }
+
+    // Validación del correo
+    let correo = document.getElementById("correo");
+    let correoRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!correoRegex.test(correo.value)) {
+      alert("Por favor, ingresa un correo electrónico válido.");
+      event.preventDefault();
+      return;
+    }
+
+    // Validación del campo de Descripción Breve
+    let descripcion = document.getElementById("descripcion");
+    if (descripcion.value === "") {
+      alert("La Descripción Breve es obligatoria");
+      event.preventDefault();
+      return;
+    }
+
+    // Validación de la categoría
+    let categoria = document.getElementById("categoria");
+    if (categoria.value === "") {
+      alert("Selecciona una categoría");
+      event.preventDefault();
+      return;
+    }
+
+    // Si todo está bien, el formulario se envía
+    alert("Formulario enviado con éxito");
+  });
+</script>

@@ -1,0 +1,424 @@
+<!--Cómo integrar esto con tu backend real
+
+Reemplaza las llamadas al serverSim por fetch a tus endpoints:
+  1.  /auth/send-code — POST {email} → responde {ok:true} o {ok:false,msg}
+  2.  /auth/verify-code — POST {email,code} → {ok:true} o {ok:false,msg}
+  3.  /auth/register — POST {email,password,full_name} → {ok:true,user}
+  4.  /auth/login — POST {email,password} → {ok:true,user,tokens} o error
+  5.  /auth/refresh — POST {refresh} → {ok:true,access,expiresAt}
+
+En producción ten en cuenta:
+  • Nunca muestres el código en consola. (en el simulador se imprime para probar).
+  • Hash de contraseñas en backend (bcrypt/argon2).
+  • Usar HTTPS, CORS y políticas de rate-limiting para endpoints de envío de códigos.
+  • No almacenar tokens sensibles en localStorage si no quieres riesgo XSS; considera HttpOnly cookies para refresh tokens.
+  • Implementar expiración y verificación segura en backend.-->
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login</title>
+  <style>
+    :root{--bg:#1E013C;--card:#2A004F;--accent:#B31AE9;--muted:#FFFFFF}
+    body{font-family:Inter,ui-sans-serif,system-ui,Arial;margin:0;background:var(--bg);color:#A020F0}
+    .container{max-width:420px;margin:40px auto;padding:20px}
+    .card{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 6px 18px rgba(10,10,20,0.06)}
+    h1,h2{margin:0 0 12px}
+    label{display:block;font-size:14px;margin:12px 0 6px}
+    input[type=text],input[type=email],input[type=password],input[type=number],textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:14px}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;font-weight:600;cursor:pointer}
+    .link{background:transparent;border:0;color:var(--accent);cursor:pointer}
+    .muted{color:var(--muted);font-size:13px}
+    .small{font-size:13px;color:var(--muted)}
+    .hidden{display:none}
+    .center{text-align:center}
+    .row{display:flex;gap:10px}
+    .row .flex{flex:1}
+    .error{color:#b91c1c;font-size:13px;margin-top:8px}
+    .ok{color:#059669;font-size:13px;margin-top:8px}
+    .terms{height:120px;overflow:auto;border:1px solid #eef2ff;padding:10px;border-radius:8px;background:#fbfdff}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- ### VISTAS ### -->
+
+    <!--- Crear cuenta -->
+    <div id="view-register" class="card">
+      <h1>Crear cuenta</h1>
+      <p class="small">Regístrate con tu correo institucional para acceder.</p>
+
+      <label for="email">Correo institucional</label>
+      <input id="email" type="email" placeholder="nombre@tecmilenio.mx" />
+      <div id="email-error" class="error hidden"></div>
+
+      <div style="margin-top:12px" class="row">
+        <button id="send-code-btn" class="flex">Enviar código</button>
+        <button id="go-login" class="link">Ir a Inicio de sesión</button>
+      </div>
+
+      <hr style="margin:16px 0" />
+      <div class="small muted">¿No tienes correo institucional? Solo se permite registro con dominio institucional.</div>
+    </div>
+
+
+    <!--- Verificar correo --->
+    <div id="view-code" class="card hidden">
+      <h2>Verificar correo</h2>
+      <p class="small">Hemos enviado un código a <span id="code-email"></span></p>
+
+      <label for="code-input">Código (6 dígitos)</label>
+      <input id="code-input" type="text" maxlength="6" placeholder="123456" />
+      <div id="code-error" class="error hidden"></div>
+      <div id="code-ok" class="ok hidden"></div>
+
+      <div style="margin-top:12px" class="row">
+        <button id="verify-code-btn" class="flex">Verificar</button>
+        <button id="resend-code" class="link">Reenviar</button>
+      </div>
+
+      <div class="small muted" style="margin-top:10px">El código expira en <span id="timer">--:--</span></div>
+      <button id="cancel-to-register" class="link" style="margin-top:8px">Cancelar</button>
+    </div>
+
+    <!--- Completar perfil -->
+    <div id="view-form" class="card hidden">
+      <h2>Completar perfil</h2>
+
+      <label for="full-name">Nombre completo</label>
+      <input id="full-name" type="text" placeholder="Juan Pérez" />
+
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" placeholder="••••••••" />
+
+      <label>Términos y Condiciones</label>
+      <div class="terms" id="terms-text">
+        <strong>Términos y Condiciones (ejemplo)</strong>
+        <p>Al crear una cuenta aceptas nuestra política de uso. Este texto es un placeholder; en producción debe sustituirse por el documento legal real.</p>
+      </div>
+
+      <div style="margin-top:8px">
+        <input id="accept-terms" type="checkbox" /> <label for="accept-terms" style="display:inline">Acepto los Términos y Condiciones</label>
+      </div>
+      <div id="form-error" class="error hidden"></div>
+
+      <div style="margin-top:12px" class="row">
+        <button id="complete-register" class="flex">Crear cuenta</button>
+        <button id="back-to-code" class="link">Volver</button>
+      </div>
+    </div>
+
+    <!--- Inicio de sesión-->
+    <div id="view-login" class="card hidden">
+      <h2>Inicio de sesión</h2>
+      <label for="login-email">Correo</label>
+      <input id="login-email" type="email" />
+      <label for="login-password">Contraseña</label>
+      <input id="login-password" type="password" />
+      <div id="login-error" class="error hidden"></div>
+
+      <div style="margin-top:12px" class="row">
+        <button id="login-btn" class="flex">Iniciar sesión</button>
+        <button id="go-register" class="link">Crear cuenta</button>
+      </div>
+    </div>
+
+    <!-- Pantalla principal -->
+    <div id="view-welcome" class="card hidden center">
+      <h1>Bienvenido a EJENEX</h1>
+      <p id="welcome-name" class="small muted"></p>
+      <div style="margin-top:16px">
+        <button id="logout-btn">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div id="view-debug" class="card hidden" style="margin-top:12px">
+      <h3>Debug (no mostrar en producción)</h3>
+      <pre id="debug-area" style="white-space:pre-wrap;font-size:13px;color:#333"></pre>
+    </div>
+  </div>
+
+  <script>
+    /***********************************************
+     * Configurable variables:
+     ***********************************************/
+    const INSTITUTION_DOMAIN = "@tecmilenio.mx";
+    const CODE_EXPIRATION_SECONDS = 5 * 60; // 5 minutos
+    const TOKEN_LIFETIME_SECONDS = 60 * 60; // 1 hora SIMULACIÓN
+    const REFRESH_LIFETIME_SECONDS = 24 * 60 * 60; // 24 horas SIMULACIÓN
+
+    /***********************************************
+     * Helpers
+     ***********************************************/
+    function $(id){return document.getElementById(id)}
+    function show(viewId){["view-register","view-code","view-form","view-login","view-welcome","view-debug"].forEach(v=>$(v).classList.add("hidden")); $(viewId).classList.remove("hidden")}
+    function nowSec(){return Math.floor(Date.now()/1000)}
+    function rand6(){return Math.floor(100000 + Math.random()*900000).toString()}
+
+    /***********************************************
+     * Simple in-memory "backend" simulator.
+     * Replace calls with real fetch() to your APIs.
+     ***********************************************/
+    const serverSim = {
+      codes: {}, // email -> {code, expiresAt}
+      users: {}, // email -> {passwordHash, full_name, email_verified, role, created_at}
+      sendCode(email){
+        const code = rand6()
+        const expiresAt = nowSec() + CODE_EXPIRATION_SECONDS
+        this.codes[email] = {code, expiresAt}
+        console.info("[SIM] Código para", email, ":", code, "expira en", new Date(expiresAt*1000).toISOString())
+        return {ok:true}
+      },
+      verifyCode(email, code){
+        const entry = this.codes[email]
+        if(!entry) return {ok:false, msg:"No se solicitó código para este correo"}
+        if(nowSec() > entry.expiresAt) return {ok:false, msg:"Código expirado"}
+        if(entry.code !== code) return {ok:false, msg:"Código incorrecto"}
+        return {ok:true}
+      },
+      registerUser({email, password, full_name}){
+        if(this.users[email]) return {ok:false, msg:"Usuario ya existe"}
+        this.users[email] = {
+          passwordHash: password, // en simulador guardamos la contraseña tal cual; en producción guardar solo hash.
+          full_name, email_verified: true, role: "student",
+          created_at: new Date().toISOString()
+        }
+        return {ok:true, user:this.users[email]}
+      },
+      login({email, password}){
+        const u = this.users[email]
+        if(!u) return {ok:false, msg:"Usuario no encontrado"}
+        if(u.passwordHash !== password) return {ok:false, msg:"Contraseña incorrecta"}
+        return {ok:true, user:u}
+      },
+      // generar tokens simulados
+      generateTokens(email){
+        const access = btoa(email + ":" + Math.random()).slice(0,32)
+        const refresh = btoa("refresh:" + email + ":" + Math.random()).slice(0,40)
+        const expiresAt = nowSec() + TOKEN_LIFETIME_SECONDS
+        const refreshExpiresAt = nowSec() + REFRESH_LIFETIME_SECONDS
+        return {access, refresh, expiresAt, refreshExpiresAt}
+      }
+    }
+
+    /***********************************************
+     * Local session management (using localStorage)
+     ***********************************************/
+    const storage = {
+      saveSession(session){
+        localStorage.setItem("ejenex_session", JSON.stringify(session))
+      },
+      loadSession(){
+        return JSON.parse(localStorage.getItem("ejenex_session")||"null")
+      },
+      clearSession(){
+        localStorage.removeItem("ejenex_session")
+      }
+    }
+
+    /***********************************************
+     * UI wiring
+     ***********************************************/
+    // initial view: if session valid -> welcome, else register
+    function appInit(){
+      const s = storage.loadSession()
+      if(s && s.access && nowSec() < s.expiresAt){
+        renderWelcome(s)
+        show("view-welcome")
+      } else {
+        storage.clearSession()
+        show("view-register")
+      }
+      updateDebug()
+    }
+
+    // send code
+    $("send-code-btn").addEventListener("click", async ()=>{
+      const email = $("email").value.trim().toLowerCase()
+      $("email-error").classList.add("hidden")
+      if(!validateInstitutionEmail(email)){
+        $("email-error").textContent = `Solo correos con dominio ${INSTITUTION_DOMAIN} están permitidos.`
+        $("email-error").classList.remove("hidden")
+        return
+      }
+
+      // >> En producción: hacer fetch POST a /auth/send-code con {email}
+      // const resp = await fetch("/auth/send-code",{method:"POST",headers:{'Content-Type':'application/json'},body:JSON.stringify({email})})
+      // const result = await resp.json()
+      // if(!result.ok){ show error... }
+
+      serverSim.sendCode(email)
+      currentFlow.email = email
+      $("code-email").textContent = email
+      startCodeTimer()
+      show("view-code")
+      updateDebug()
+    })
+
+    $("resend-code").addEventListener("click", ()=>{
+      if(!currentFlow.email) return
+      serverSim.sendCode(currentFlow.email)
+      startCodeTimer()
+      updateDebug()
+    })
+
+    $("cancel-to-register").addEventListener("click", ()=>{
+      currentFlow = {}
+      show("view-register")
+      updateDebug()
+    })
+
+    // verify code
+    $("verify-code-btn").addEventListener("click", async ()=>{
+      const code = $("code-input").value.trim()
+      const email = currentFlow.email
+      $("code-error").classList.add("hidden"); $("code-ok").classList.add("hidden")
+      if(!/^\d{6}$/.test(code)){ $("code-error").textContent = "Ingresa un código de 6 dígitos."; $("code-error").classList.remove("hidden"); return }
+      // >> En producción: POST /auth/verify-code {email, code}
+      const result = serverSim.verifyCode(email, code)
+      if(!result.ok){ $("code-error").textContent = result.msg; $("code-error").classList.remove("hidden"); return }
+      $("code-ok").textContent = "Código validado. Completa tu perfil."
+      $("code-ok").classList.remove("hidden")
+      show("view-form")
+      updateDebug()
+    })
+
+    $("back-to-code").addEventListener("click", ()=> show("view-code"))
+
+    // complete register
+    $("complete-register").addEventListener("click", async ()=>{
+      const fullName = $("full-name").value.trim()
+      const password = $("password").value.trim()
+      const accepted = $("accept-terms").checked
+      $("form-error").classList.add("hidden")
+      if(!fullName || !password){ $("form-error").textContent = "Nombre y contraseña son obligatorios."; $("form-error").classList.remove("hidden"); return }
+      if(!accepted){ $("form-error").textContent = "Debes aceptar los Términos y Condiciones."; $("form-error").classList.remove("hidden"); return }
+
+      const email = currentFlow.email
+      // >> En producción: POST /auth/register {email, password, full_name}
+      const resp = serverSim.registerUser({email, password, full_name: fullName})
+      if(!resp.ok){ $("form-error").textContent = resp.msg; $("form-error").classList.remove("hidden"); return }
+      // generar tokens (simulación)
+      const tokens = serverSim.generateTokens(email)
+      const session = {email, full_name: fullName, access: tokens.access, refresh: tokens.refresh, expiresAt: tokens.expiresAt}
+      storage.saveSession(session)
+      renderWelcome(session)
+      show("view-welcome")
+      updateDebug()
+    })
+
+    // login flow
+    $("login-btn").addEventListener("click", async ()=>{
+      const email = $("login-email").value.trim().toLowerCase()
+      const password = $("login-password").value.trim()
+      $("login-error").classList.add("hidden")
+      if(!email || !password){ $("login-error").textContent = "Ingresa correo y contraseña."; $("login-error").classList.remove("hidden"); return }
+      // >> En producción: POST /auth/login {email,password}
+      const result = serverSim.login({email,password})
+      if(!result.ok){ $("login-error").textContent = result.msg; $("login-error").classList.remove("hidden"); return }
+      const tokens = serverSim.generateTokens(email)
+      const session = {email, full_name: result.user.full_name, access: tokens.access, refresh: tokens.refresh, expiresAt: tokens.expiresAt}
+      storage.saveSession(session)
+      renderWelcome(session)
+      show("view-welcome")
+      updateDebug()
+    })
+
+    $("go-register").addEventListener("click", ()=> show("view-register"))
+    $("go-login").addEventListener("click", ()=> show("view-login"))
+
+    $("logout-btn").addEventListener("click", ()=>{
+      storage.clearSession()
+      currentFlow = {}
+      show("view-register")
+      updateDebug()
+    })
+
+    function renderWelcome(session){
+      $("welcome-name").textContent = session.full_name ? session.full_name : session.email
+    }
+
+    // login-on-load: check token expiry and auto-refresh simulation
+    function checkSessionValidity(){
+      const s = storage.loadSession()
+      if(!s) return
+      if(nowSec() >= s.expiresAt){
+        // intentar refresh (simulado)
+        // En producción: POST /auth/refresh {refresh token}
+        console.info("[SIM] Access token expirado. Intentando refresh...")
+        // simulamos refresh exitoso si refresh exists
+        const tokens = serverSim.generateTokens(s.email)
+        s.access = tokens.access; s.expiresAt = tokens.expiresAt; s.refresh = tokens.refresh
+        storage.saveSession(s)
+      }
+    }
+
+    // validate email domain
+    function validateInstitutionEmail(email){
+      if(!email) return false
+      return email.endsWith(INSTITUTION_DOMAIN)
+    }
+
+    /***********************************************
+     * Código de temporizador de verificación
+     ***********************************************/
+    let timerInterval = null
+    let currentFlow = {} // {email, codeSentAt, codeExpiresAt}
+    function startCodeTimer(){
+      const email = currentFlow.email
+      const entry = serverSim.codes[email]
+      if(!entry) return
+      const end = entry.expiresAt
+      updateTimerUI(end)
+      if(timerInterval) clearInterval(timerInterval)
+      timerInterval = setInterval(()=> {
+        updateTimerUI(end)
+      }, 1000)
+    }
+    function updateTimerUI(end){
+      const remaining = end - nowSec()
+      if(remaining <= 0){
+        $("timer").textContent = "00:00"
+        if(timerInterval){ clearInterval(timerInterval); timerInterval = null }
+        $("code-error").textContent = "El código ha vencido. Reenvía para obtener uno nuevo."
+        $("code-error").classList.remove("hidden")
+        return
+      }
+      const m = Math.floor(remaining/60).toString().padStart(2,"0")
+      const s = (remaining%60).toString().padStart(2,"0")
+      $("timer").textContent = `${m}:${s}`
+    }
+
+    /***********************************************
+     * Debugging display (remove for production)
+     ***********************************************/
+    function updateDebug(){
+      const dbg = {
+        INSTITUTION_DOMAIN, CODE_EXPIRATION_SECONDS,
+        currentFlow, serverDataSummary: {users:Object.keys(serverSim.users).length, codes:Object.keys(serverSim.codes).length},
+        localSession: storage.loadSession()
+      }
+      $("debug-area").textContent = JSON.stringify(dbg, null, 2)
+      // show debug by pressing ctrl+shift+D
+    }
+    // show debug on key combo
+    window.addEventListener("keydown", (e)=> {
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==="d"){
+        $("view-debug").classList.toggle("hidden")
+      }
+    })
+
+    /***********************************************
+     * When user clicks send-code we also set currentFlow.email
+     ***********************************************/
+    // update currentFlow.email when server sends code (already in send code handler)
+    // For simulation, show code in console (already printed by serverSim)
+
+    // on load
+    appInit()
+    setInterval(()=>{ checkSessionValidity(); updateDebug() }, 10_000)
+  </script>
+</body>
+</html>

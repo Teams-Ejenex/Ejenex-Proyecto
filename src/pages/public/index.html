@@ -3,113 +3,138 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Grupos estudiantiles | [Nombre de la escuela]</title>
+  <title>Talent Land México | Grupos Estudiantiles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1:#040214; --bg-2:#071033;
+      --accent-1:#7c3aed; --accent-2:#22d3ee;
+      --cta-green-1:#10b981; --cta-green-2:#06d6a0;
+      --muted: rgba(255,255,255,0.78);
+      --radius:14px; --container-max:1100px;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#e6eef6; -webkit-font-smoothing:antialiased;
+      line-height:1.45; min-height:100vh;
+    }
+
+    .container{ max-width:var(--container-max); margin:0 auto; padding:0 1rem; }
+
+    /* Navbar (mantengo) */
+    .navbar{
+      width:90%; max-width:1100px; margin:20px auto;
+      background: linear-gradient(90deg,#6e7480,#5a5f66);
+      border-radius:30px; padding:10px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    }
+    .navbar .logo{ color:#fff; font-weight:800; font-size:1rem; display:flex; align-items:center; gap:10px }
+    .navbar .menu{ display:flex; gap:14px; align-items:center; }
+    .navbar .menu a{ text-decoration:none; color:#fff; font-size:.95rem; padding:6px 12px; border-radius:14px; transition:background .18s ease; }
+    .navbar .menu a:hover{ background:rgba(255,255,255,0.08) }
+    .navbar .menu .active{ background:linear-gradient(90deg,#8e2aa6,#7c3aed); font-weight:700; box-shadow:0 8px 20px rgba(124,58,237,0.12) }
+    .navbar .user{ width:34px; height:34px; border-radius:50%; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#020617; font-weight:700 }
+
+    /* Hero */
+    .hero{ margin:1rem auto 2rem; max-width:920px; }
+    .hero .container{ display:flex; flex-direction:column; gap:1.5rem; align-items:center; padding:2rem; text-align:center; }
+    .hero-content h1{ font-size:2.4rem; font-weight:800; background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:.6rem }
+    .hero-tagline{ color:rgba(230,238,246,0.9); font-size:1.05rem; margin-bottom:.8rem; font-weight:600 }
+
+    /* Grupos destacados */
+    .grupos-section{ margin:2.2rem auto; max-width:900px; padding:0 1rem; }
+    .grupos-section h2{ text-align:center; color:#fff; font-size:1.8rem; margin-bottom:1rem }
+    .grupos-lista{ list-style:none; display:grid; gap:1rem; padding:0; margin:0 auto; max-width:720px }
+    .grupos-lista li{ background:rgba(255,255,255,0.02); border-radius:var(--radius); padding:1rem 1.2rem; border:1px solid rgba(255,255,255,0.04); font-weight:700; color:#fff }
+    .grupos-lista li:hover{ transform:translateY(-4px); box-shadow:0 14px 40px rgba(0,0,0,0.35); }
+
+    .center-btn{ display:flex; justify-content:center; margin:1rem 0 }
+    .btn{ display:inline-block; padding:.8rem 1.6rem; border-radius:999px; font-weight:700; text-decoration:none; cursor:pointer; border:none; transition:all .18s ease }
+    .btn-primario{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:#030617; box-shadow:0 10px 30px rgba(124,58,237,0.12) }
+
+    /* Participación */
+    .participacion-section{ max-width:920px; margin:2rem auto; background:linear-gradient(135deg, rgba(124,58,237,0.06), rgba(34,211,238,0.06)); border-radius:var(--radius); padding:1.8rem; text-align:center; border:1px solid rgba(255,255,255,0.05) }
+    .participacion-section h2{ color:#fff; margin-bottom:.6rem }
+    .participacion-section p{ color:var(--muted); line-height:1.6 }
+
+    /* Footer */
+    .footer{ margin-top:2.5rem; padding:1.6rem 0; text-align:center; color:rgba(230,238,246,0.8) }
+
+    /* Responsive */
+    @media (max-width:768px){
+      .hero-content h1{ font-size:1.8rem }
+      .grupos-lista{ grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *{ animation:none !important; transition:none !important }
+    }
+  </style>
 </head>
-
 <body>
-  <!-- HEADER -->
-  <header class="header">
-    <div class="logo">
-      <!-- Puedes cambiarlo por una imagen <img> -->
-      <span class="logo-icon">🎓</span>
-      <span class="logo-text">Grupos estudiantiles</span>
-    </div>
-    <nav class="nav">
-      <a href="index.html" class="nav-link active">Inicio</a>
-      <a href="grupos.html" class="nav-link">Grupos</a>
-      <a href="about.html" class="nav-link">Nosotras</a>
-      <a href="contacto.html" class="nav-link">Contacto</a>
-    </nav>
-  </header>
 
-  <!-- HERO / PORTADA -->
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">EJENEX</div>
+
+    <div class="menu">
+      <a href="#" class="active">Inicio</a>
+      <a href="#">Grupos estudiantiles</a>
+      <a href="#">Material</a>
+      <a href="#">Sobre nosotros</a>
+      <a href="#">FeTecmi</a>
+    </div>
+
+    <div class="user" aria-label="Usuario">U</div>
+  </nav>
+
+  <!-- HERO -->
   <main>
     <section class="hero">
-      <div class="hero-texto">
-        <h1>Conecta con los grupos estudiantiles de Tecmilenio</h1>
-        <p>
-          Explora clubes de arte, deporte, tecnología y mucho más. Encuentra el
-          grupo ideal para ti y participa en la vida estudiantil.
-        </p>
-        <div class="hero-botones">
-          <a href="grupos.html" class="btn btn-primario">Ver todos los grupos</a>
-          <a href="#buscador" class="btn btn-secundario">Sobre Nosotros</a>
+      <div class="container">
+        <div class="hero-content">
+          <h1>Todos los datos de la nueva era</h1>
+          <p class="hero-tagline">Conecta, colabora y crece con los grupos estudiantiles</p>
         </div>
       </div>
-      <div class="hero-ilustracion">
-        <img src="assets/img/imagen_inicio_ejenex.png" alt="Imagen AI" class="hero-img" />
-      </div>
-    </section>
-
-    <!-- BUSCADOR / FILTROS -->
-    <section id="buscador" class="buscador">
-      <h2>Encuentra un grupo para ti</h2>
-      <form class="buscador-form">
-        <input type="text" placeholder="Buscar por nombre o palabra clave..." class="buscador-input" />
-        <select class="buscador-select">
-          <option value="">Todas las categorías</option>
-          <option value="arte">Arte</option>
-          <option value="deporte">Deporte</option>
-          <option value="tecnologia">Tecnología</option>
-          <option value="academico">Académico</option>
-          <option value="comunidad">Comunidad</option>
-        </select>
-        <button type="submit" class="btn btn-primario">Buscar</button>
-      </form>
     </section>
 
     <!-- GRUPOS DESTACADOS -->
-    <section class="destacados">
-      <div class="destacados-header">
-        <h2>Grupos destacados</h2>
-        <a href="grupos.html" class="destacados-link">Ver todos &rarr;</a>
+    <section class="grupos-section">
+      <h2>Grupos estudiantiles destacados</h2>
+      <ul class="grupos-lista container">
+        <li>FAN FIGHTERS</li>
+      </ul>
+      <div class="center-btn">
+        <a class="btn btn-primario" href="#">Ver más</a>
       </div>
+    </section>
 
-      <div class="tarjetas-grupos">
-        <!-- Tarjeta 1 -->
-        <article class="tarjeta-grupo">
-          <h3>Club de Robótica</h3>
-          <p class="tarjeta-categoria">Tecnología</p>
-          <p class="tarjeta-descripcion">
-            Construcción de robots, programación y participación en competencias.
-          </p>
-          <a href="grupos.html" class="tarjeta-link">Ver más</a>
-        </article>
-
-        <!-- Tarjeta 2 -->
-        <article class="tarjeta-grupo">
-          <h3>Grupo de Teatro</h3>
-          <p class="tarjeta-categoria">Arte</p>
-          <p class="tarjeta-descripcion">
-            Actuación, montajes escénicos y presentaciones durante el semestre.
-          </p>
-          <a href="grupos.html" class="tarjeta-link">Ver más</a>
-        </article>
-
-        <!-- Tarjeta 3 -->
-        <article class="tarjeta-grupo">
-          <h3>Club Deportivo</h3>
-          <p class="tarjeta-categoria">Deporte</p>
-          <p class="tarjeta-descripcion">
-            Futbol, básquetbol y actividades físicas para todos los niveles.
-          </p>
-          <a href="grupos.html" class="tarjeta-link">Ver más</a>
-        </article>
-      </div>
+    <!-- PARTICIPACIÓN -->
+    <section class="participacion-section container">
+      <h2>Participa y conecta</h2>
+      <p>Participa en eventos de Universidad Tecmilenio Campus Toluca, conoce grupos estudiantiles y encuentra el apoyo académico que necesitas, todo en un solo lugar.</p>
+      <p>Tu espacio para descubrir, colaborar y crecer en comunidad.</p>
+      <a class="btn btn-primario" href="#" style="margin-top:1rem;display:inline-block;">Explorar eventos</a>
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>Proyecto de grupos estudiantiles · Tecmilenio</p>
-    <p class="footer-creditos">
-      Desarrollado por el equipo: EJENEX
-    </p>
+    <div class="container">
+      <p>© 2024 Talent Land México. Todos los derechos reservados.</p>
+      <p>Desarrollado con pasión por la comunidad estudiantil.</p>
+    </div>
   </footer>
 </body>
-
 </html>
 
 <script type="module" src="../../js/test-supabase.js"></script>

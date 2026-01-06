@@ -9,33 +9,44 @@
 <body>
   <div class="form-container">
     <h2>Información Básica del Grupo</h2>
-    <form>
+    <form id="group-form">
+      <!-- Nombre del grupo -->
       <div class="form-group">
         <label for="nombre">Nombre del Grupo *</label>
-        <input type="text" id="nombre" name="nombre" placeholder="user@tecmilenio.mx" required>
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre del grupo" required>
         <small>Nombre oficial del grupo estudiantil</small>
       </div>
+      
+      <!-- Categoría -->
       <div class="form-group">
         <label for="categoria">Categoría *</label>
         <select id="categoria" name="categoria" required>
           <option value="">Seleccione una categoría</option>
-          <option value="opcion 1">opcion 1</option>
-          <option value="opcion 2">opcion 2</option>
-          <option value="opcion 3">opcion 3</option>
+          <option value="Federación de Estudiantes">Federación de Estudiantes</option>
+          <option value="De Escuela">De Escuela</option>
+          <option value="Capítulo Estudiantil">Capítulo Estudiantil</option>
         </select>
       </div>
+      
+      <!-- Descripción -->
       <div class="form-group">
         <label for="descripcion">Descripción Breve *</label>
         <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente los objetivos y actividades del grupo" required></textarea>
       </div>
+      
+      <!-- Logo del grupo -->
       <div class="form-group">
-        <label for="logo">Logo del grupo</label>
-        <input type="url" id="logo" name="logo" placeholder="URL de la imagen del logo">
+        <label for="logo">Logo del grupo (URL)</label>
+        <input type="url" id="logo" name="logo" placeholder="URL del logo (opcional)">
       </div>
+      
+      <!-- Correo del grupo -->
       <div class="form-group">
         <label for="correo">Correo del grupo estudiantil *</label>
-        <input id="correo" name="correo" rows="4" placeholder="Correo ">
+        <input id="correo" name="correo" type="email" placeholder="Correo del grupo" required>
       </div>
+      
+      <!-- Redes Sociales -->
       <div class="form-group">
         <label for="redes">Redes Sociales</label>
         <select id="redes" name="redes">
@@ -45,51 +56,71 @@
         </select>
         <input type="url" id="urlRedes" name="urlRedes" placeholder="https://...">
       </div>
+      
+      <!-- Botones de acción -->
       <div class="form-actions">
         <button type="reset" class="btn-reset">Borrar formulario</button>
         <button type="submit" class="btn-submit">Guardar Grupo</button>
       </div>
     </form>
+
+    <!-- Contenedor para mostrar mensajes de éxito/error -->
+    <div id="message-container"></div>
   </div>
+
+  <!-- Código JavaScript para Validación y Llamada a la API -->
+  <script type="module">
+    import { createClient } from '@supabase/supabase-js';
+
+    // Reemplaza con tu URL de Supabase y la clave pública
+    const supabaseUrl = 'https://ncuywzwlqlfbolpwxcyi.supabase.co'; // URL de tu proyecto
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jdXl3endscWxmYm9scHd4Y3lpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMTAxNzUsImV4cCI6MjA4MTU4NjE3NX0.QHhbWSLAzWvF-PhdJnXVj-YpxjzR7fQ78NSrn5QKvzM'; // Sustituye con tu clave pública
+
+    // Crear cliente Supabase
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Escuchamos el evento submit del formulario
+    document.getElementById('group-form').addEventListener("submit", async function(event) {
+      event.preventDefault(); // Evitar el comportamiento por defecto del formulario
+
+      // Obtener los valores de los campos
+      const nombre = document.getElementById("nombre").value;
+      const categoria = document.getElementById("categoria").value;
+      const descripcion = document.getElementById("descripcion").value;
+      const logo = document.getElementById("logo").value;
+      const correo = document.getElementById("correo").value;
+      const redes = document.getElementById("redes").value;
+      const urlRedes = document.getElementById("urlRedes").value;
+
+      // Validación básica
+      if (!nombre || !categoria || !descripcion || !correo) {
+        document.getElementById('message-container').innerText = 'Por favor, complete todos los campos obligatorios.';
+        return;
+      }
+
+      // Enviar los datos al backend de Supabase (a la base de datos)
+      const { data, error } = await supabase
+        .from('grupos') // Nombre de la tabla en tu base de datos
+        .insert([
+          {
+            nombre,
+            categoria,
+            descripcion,
+            logo,
+            correo,
+            redes,
+            url_redes: urlRedes, // Si se incluye la URL de redes
+          },
+        ]);
+
+      if (error) {
+        console.error('Error al crear el grupo:', error);
+        document.getElementById('message-container').innerText = 'Hubo un error al crear el grupo.';
+      } else {
+        console.log('Grupo creado exitosamente:', data);
+        document.getElementById('message-container').innerText = 'Grupo creado exitosamente';
+      }
+    });
+  </script>
 </body>
 </html>
-
-<script>
-  document.querySelector("form").addEventListener("submit", function(event) {
-    // Validación del campo de Nombre
-    let nombre = document.getElementById("nombre");
-    if (nombre.value === "") {
-      alert("El Nombre del Grupo es obligatorio");
-      event.preventDefault(); // Evita que el formulario se envíe
-      return;
-    }
-
-    // Validación del correo
-    let correo = document.getElementById("correo");
-    let correoRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!correoRegex.test(correo.value)) {
-      alert("Por favor, ingresa un correo electrónico válido.");
-      event.preventDefault();
-      return;
-    }
-
-    // Validación del campo de Descripción Breve
-    let descripcion = document.getElementById("descripcion");
-    if (descripcion.value === "") {
-      alert("La Descripción Breve es obligatoria");
-      event.preventDefault();
-      return;
-    }
-
-    // Validación de la categoría
-    let categoria = document.getElementById("categoria");
-    if (categoria.value === "") {
-      alert("Selecciona una categoría");
-      event.preventDefault();
-      return;
-    }
-
-    // Si todo está bien, el formulario se envía
-    alert("Formulario enviado con éxito");
-  });
-</script>

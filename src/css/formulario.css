@@ -8,15 +8,14 @@
 .form-container{
   max-width: 760px;
   margin: 3.5rem auto;
-  background: transparent; /* tarjeta transparente */
+  background: linear-gradient(180deg, #8A1A85 0%, #7A177A 100%); /* solid purple card */
   padding: 1.6rem 1.8rem;
   border-radius: 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
   color: #fff;
   position: relative;
   z-index: 1;
-  border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px); /* mejora legibilidad sobre el color sólido */
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 input[type="text"], input[type="url"], input[type="email"], select, textarea{

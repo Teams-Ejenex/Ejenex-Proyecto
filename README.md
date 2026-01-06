@@ -108,3 +108,17 @@ Acceso a datos en service.js
 Validar permisos con RLS en Supabase
 
 Documentar el endpoint en docs/api.md
+
+## Migraciones de Base de Datos (Supabase)
+
+Este repositorio usa migraciones SQL versionadas en `supabase/migrations/` para que cualquier integrante pueda replicar el esquema y las políticas de seguridad (RLS).
+
+### Requisitos
+- Node.js
+- Supabase CLI (`npm i -g supabase`)
+- Docker Desktop (para ambiente local)
+
+### Ejecutar base de datos local
+```bash
+supabase start
+supabase db reset

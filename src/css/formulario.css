@@ -1,0 +1,119 @@
+/* Estilos específicos para el formulario de registro */
+:root{
+  --bg-card: rgba(255,255,255,0.04);
+  --accent: #8A1A85;
+  --muted: rgba(255,255,255,0.7);
+}
+
+.form-container{
+  max-width: 760px;
+  margin: 3.5rem auto;
+  background: transparent; /* tarjeta transparente */
+  padding: 1.6rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px); /* mejora legibilidad sobre el color sólido */
+}
+
+input[type="text"], input[type="url"], input[type="email"], select, textarea{
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06); /* slightly translucent for contrast */
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.form-container h2{
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  color: var(--accent);
+}
+
+.form-group{
+  margin-bottom: 1rem;
+}
+
+label{
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+input[type="text"], input[type="url"], input[type="email"], select, textarea{
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg-card);
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+input::placeholder, textarea::placeholder{
+  color: rgba(255,255,255,0.45);
+}
+
+input:focus, textarea:focus, select:focus{
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(138,26,133,0.12);
+}
+
+.small-note{
+  display: block;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+small.error{
+  color: #ffb4b4;
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  min-height: 1em;
+}
+
+.inline-group{
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.inline-group select{ flex: 0 0 36%; }
+.inline-group input{ flex: 1; }
+
+.form-actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.btn-primario{
+  background: var(--accent);
+  color: #fff;
+  padding: 0.6rem 1.05rem;
+  border-radius: 10rem;
+}
+
+.btn-secundario{
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  padding: 0.55rem 1rem;
+  border-radius: 10rem;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+@media (max-width: 600px){
+  .form-container{ margin: 1.6rem; padding: 1rem; }
+  .form-actions{ flex-direction: column-reverse; align-items: stretch; }
+}

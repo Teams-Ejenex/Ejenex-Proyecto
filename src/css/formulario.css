@@ -1,118 +1,202 @@
-/* Estilos específicos para el formulario de registro */
-:root{
-  --bg-card: rgba(255,255,255,0.04);
-  --accent: #8A1A85;
-  --muted: rgba(255,255,255,0.7);
-}
+/* =========================
+   FORMULARIO (SCOPED)
+   Solo afecta a páginas con: <body class="bg-ejenex">
+   ========================= */
 
-.form-container{
-  max-width: 760px;
-  margin: 3.5rem auto;
-  background: linear-gradient(180deg, #8A1A85 0%, #7A177A 100%); /* solid purple card */
-  padding: 1.6rem 1.8rem;
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
-  color: #fff;
-  position: relative;
-  z-index: 1;
-  border: 1px solid rgba(255,255,255,0.08);
-}
+body.bg-ejenex {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(45deg, #3d014b, #90046a);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 
-input[type="text"], input[type="url"], input[type="email"], select, textarea{
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.06); /* slightly translucent for contrast */
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.form-container h2{
-  font-size: 1.4rem;
-  margin-bottom: 0.8rem;
-  color: var(--accent);
-}
-
-.form-group{
-  margin-bottom: 1rem;
-}
-
-label{
-  display: block;
-  margin-bottom: 0.35rem;
-  font-weight: 600;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-input[type="text"], input[type="url"], input[type="email"], select, textarea{
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: var(--bg-card);
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-input::placeholder, textarea::placeholder{
-  color: rgba(255,255,255,0.45);
-}
-
-input:focus, textarea:focus, select:focus{
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 6px 18px rgba(138,26,133,0.12);
-}
-
-.small-note{
-  display: block;
-  color: rgba(255,255,255,0.6);
-  font-size: 0.85rem;
-  margin-top: 0.35rem;
-}
-
-small.error{
-  color: #ffb4b4;
-  display: block;
-  margin-top: 0.35rem;
-  font-size: 0.85rem;
-  min-height: 1em;
-}
-
-.inline-group{
   display: flex;
-  gap: 0.6rem;
   align-items: center;
+  justify-content: center;
 }
 
-.inline-group select{ flex: 0 0 36%; }
-.inline-group input{ flex: 1; }
+/* Formulario */
+body.bg-ejenex .form-container {
+  background: white;
+  width: min(520px, 92vw);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.18);
+}
 
-.form-actions{
+body.bg-ejenex .form-container h2 {
+  color: #2c3e50;
+  margin: 0 0 25px 0;
+  font-size: 1.4rem;
+}
+
+/* Inputs */
+body.bg-ejenex .form-group {
+  margin-bottom: 18px;
+}
+
+body.bg-ejenex .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-weight: 600;
+}
+
+body.bg-ejenex .form-group input,
+body.bg-ejenex .form-group select,
+body.bg-ejenex .form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+
+body.bg-ejenex .form-group input:focus,
+body.bg-ejenex .form-group select:focus,
+body.bg-ejenex .form-group textarea:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+body.bg-ejenex .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+body.bg-ejenex .form-group small {
+  display: block;
+  margin-top: 6px;
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+/* Redes */
+body.bg-ejenex .social-input {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.8rem;
-  margin-top: 1rem;
+  gap: 10px;
 }
 
-.btn-primario{
-  background: var(--accent);
+body.bg-ejenex .social-input select {
+  flex: 1;
+  max-width: 210px;
+}
+
+body.bg-ejenex .social-input input {
+  flex: 2;
+}
+
+/* Botones */
+body.bg-ejenex .form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+body.bg-ejenex .btn-reset,
+body.bg-ejenex .btn-submit {
+  padding: 14px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .05s ease, background 0.2s ease;
+  flex: 1;
+}
+
+body.bg-ejenex .btn-reset {
+  background: #e74c3c;
+  color: white;
+}
+
+body.bg-ejenex .btn-reset:hover { background: #c0392b; }
+body.bg-ejenex .btn-submit { background: #2ecc71; color: white; }
+body.bg-ejenex .btn-submit:hover { background: #27ae60; }
+
+body.bg-ejenex .btn-reset:active,
+body.bg-ejenex .btn-submit:active {
+  transform: translateY(1px);
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+  body.bg-ejenex .social-input {
+    flex-direction: column;
+  }
+
+  body.bg-ejenex .social-input select {
+    max-width: 100%;
+  }
+
+  body.bg-ejenex .form-actions {
+    flex-direction: column;
+  }
+}
+/* Redes sociales múltiples */
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social-row {
+  position: relative;
+}
+
+.btn-add-social {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 2px dashed rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
   color: #fff;
-  padding: 0.6rem 1.05rem;
-  border-radius: 10rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
-.btn-secundario{
-  background: rgba(255,255,255,0.06);
+.btn-add-social:hover {
+  background: rgba(255,255,255,0.16);
+}
+
+.btn-social-remove {
+  border: none;
+  background: #e74c3c;
   color: #fff;
-  padding: 0.55rem 1rem;
-  border-radius: 10rem;
-  border: 1px solid rgba(255,255,255,0.05);
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-@media (max-width: 600px){
-  .form-container{ margin: 1.6rem; padding: 1rem; }
-  .form-actions{ flex-direction: column-reverse; align-items: stretch; }
+.btn-social-remove:hover {
+  background: #c0392b;
+}
+.btn-add-social {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 2px dashed rgba(0,0,0,0.25);
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+}
+
+.btn-add-social:hover {
+  background: rgba(0,0,0,0.05);
 }

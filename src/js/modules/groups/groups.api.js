@@ -13,7 +13,6 @@ import { supabase } from "../../core/supabaseClient.js";
 import { isAdmin } from "../../core/auth.js";
 
 export async function postAdminGroups(data) {
-  // Seguridad a nivel app (además de RLS en Supabase)
   const ok = await isAdmin();
   if (!ok) throw new Error("Acceso denegado: solo administradores");
 
@@ -24,8 +23,9 @@ export async function postAdminGroups(data) {
       short_description: data.short_description,
       full_description: data.full_description ?? null,
       email: data.email ?? null,
-      social_links: data.social_links ?? null,
       logo_url: data.logo_url ?? null,
+      categoria: data.category,         
+      social_links: data.social_links ?? null,
     }])
     .select()
     .single();

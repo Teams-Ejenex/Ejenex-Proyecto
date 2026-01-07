@@ -1,12 +1,100 @@
-<!--
-Archivo: groups-create.html
-Propósito:
-Pantalla administrativa para la creación de nuevos grupos estudiantiles.
-En el futuro, este formulario se conectará a la API REST (/admin/groups)
-para registrar grupos en la base de datos con validación y control de permisos.
+<!DOCTYPE html>
+<html lang="es">
 
-Uso futuro:
-- Captura de datos básicos del grupo.
-- Validaciones visuales y mensajes de error/éxito.
-- Integración con autenticación de administrador.
--->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario de creacion de grupo</title>
+
+    <!-- CSS global del proyecto (si lo necesitas) -->
+    <link rel="stylesheet" href="../../css/styles.css">
+
+    <!-- CSS del formulario (EL QUE DA EL LOOK BONITO) -->
+    <link rel="stylesheet" href="../../css/formulario.css">
+
+    <!-- Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body class="bg-ejenex">
+    <div class="form-container">
+        <h2>Información Básica del Grupo</h2>
+
+        <form id="group-form">
+            <div class="form-group">
+                <label for="nombre">Nombre del Grupo *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre del grupo" required />
+                <small>Nombre oficial del grupo estudiantil</small>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoría *</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="">Seleccione una categoría</option>
+                    <option value="Federación de Estudiantes">Federación de Estudiantes</option>
+                    <option value="De Escuela">De Escuela</option>
+                    <option value="Capítulo Estudiantil">Capítulo Estudiantil</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción Breve *</label>
+                <textarea id="descripcion" name="descripcion" rows="4"
+                    placeholder="Describe brevemente los objetivos y actividades del grupo" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="logo">Logo del grupo (URL)</label>
+                <input type="url" id="logo" name="logo" placeholder="https://..." />
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo del grupo estudiantil *</label>
+                <input type="email" id="correo" name="correo" placeholder="grupo@tecmilenio.mx" required />
+            </div>
+
+            <div class="form-group">
+                <label>Redes Sociales</label>
+
+                <div id="social-links" class="social-links">
+                    <div class="social-input social-row">
+                        <select class="social-network">
+                            <option value="">(opcional) Selecciona una red</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="youtube">YouTube</option>
+                        </select>
+
+                        <input type="url" class="social-url" placeholder="https://..." />
+
+                        <button type="button" class="btn-social-remove" title="Eliminar">✕</button>
+                    </div>
+                </div>
+           
+                <button type="button" id="btn-add-social" class="btn-add-social">
+                    + Agregar otra red
+                </button>
+
+                <small>Puedes dejarlo vacío si no aplica.</small>
+            </div>
+
+
+            <div class="form-actions">
+                <button type="reset" class="btn-reset">Borrar formulario</button>
+                <button id="btn-submit" type="submit" class="btn-submit">Guardar Grupo</button>
+            </div>
+        </form>
+
+        <div id="message-container"></div>
+    </div>
+
+    <!-- Toastify -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <!-- JS del módulo (el que guarda en Supabase usando postAdminGroups) -->
+    <script type="module" src="../../js/modules/groups/groups.form.page.js"></script>
+</body>
+
+</html>

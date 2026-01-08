@@ -11,5 +11,5 @@ Uso futuro:
 // src/js/core/config.js
 export const config = {
   supabaseUrl: "https://isdonrkccxlqmbrcgcwd.supabase.co",
-  supabaseAnonKey: "sb_publishable_4PMAd00y7QewY8PgL0rRNQ_jBCKls00",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzZG9ucmtjY3hscW1icmNnY3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0Mzg2OTEsImV4cCI6MjA4MjAxNDY5MX0.jJRmz5QHASj59en51jGqI3e-qxauB93U2aMe6CJyDmI",
 };

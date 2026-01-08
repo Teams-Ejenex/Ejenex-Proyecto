@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Perfil | EJENEX</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <style>
+    :root{
+      --bg-1:#040214; --bg-2:#071033;
+      --accent-1:#7c3aed; --accent-2:#22d3ee;
+      --muted: rgba(255,255,255,0.78);
+      --radius:18px;
+      --card: rgba(24,3,39,.55);
+      --card-border: rgba(174,67,255,.40);
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0 }
+    html,body{ height:100% }
+    body{
+      font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      min-height:100vh;
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:min(980px, 92vw);
+      background: var(--card);
+      border: 2px solid var(--card-border);
+      border-radius: 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .card-head{
+      padding:22px 22px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(90deg, rgba(124,58,237,.22), rgba(34,211,238,.10));
+    }
+
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .title h1{
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:.2px;
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .title p{ color:var(--muted); font-size:13px; }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:800;
+      font-size:13px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: transform .15s ease, opacity .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px); opacity:.9; }
+
+    .btn-primary{
+      color:#030617;
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      box-shadow:0 10px 22px rgba(124,58,237,.25);
+    }
+    .btn-ghost{
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .card-body{
+      padding:22px;
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:18px;
+    }
+
+    @media (max-width:860px){
+      .card-body{ grid-template-columns: 1fr; }
+    }
+
+    .profile-box{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .avatar{
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      overflow:hidden;
+      border:3px solid rgba(124,58,237,.45);
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
+      background:rgba(255,255,255,.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:4px auto 12px;
+    }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:none;
+    }
+    .avatar .fallback{
+      font-weight:900;
+      font-size:42px;
+      color:#fff;
+      opacity:.95;
+    }
+
+    .name{
+      text-align:center;
+      font-weight:900;
+      font-size:18px;
+      margin-top:4px;
+    }
+
+    .meta{
+      margin-top:8px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .chip-row{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:8px;
+      margin-top:14px;
+    }
+    .chip{
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
+      background:rgba(124,58,237,.14);
+      border:1px solid rgba(124,58,237,.25);
+      color:#e9ddff;
+    }
+
+    .grid{
+      display:grid;
+      gap:12px;
+    }
+
+    .section{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .section h2{
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:10px;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 160px 1fr;
+      gap:10px;
+      align-items:start;
+      padding:10px 0;
+      border-top:1px dashed rgba(255,255,255,.10);
+    }
+    .kv:first-of-type{ border-top:0; padding-top:0; }
+    .k{ color:rgba(255,255,255,.75); font-weight:800; font-size:13px; }
+    .v{ color:#fff; font-weight:700; font-size:13px; }
+
+    .list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(34,211,238,.10);
+      border:1px solid rgba(34,211,238,.22);
+      color:#d9fbff;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    .muted{ color:var(--muted); font-weight:600; }
+
+    .skeleton{
+      height:12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+      position:relative;
+    }
+    .skeleton::after{
+      content:"";
+      position:absolute; inset:0;
+      transform: translateX(-60%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer{
+      0%{ transform: translateX(-60%); }
+      100%{ transform: translateX(60%); }
+    }
+
+    .toplink{
+      color:#ff4fd8;
+      text-decoration:none;
+      font-weight:900;
+      font-size:13px;
+    }
+    .toplink:hover{ text-decoration:underline; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="card-head">
+        <div class="title">
+          <h1>Mi perfil</h1>
+          <p id="subtitle">Cargando información…</p>
+        </div>
+
+        <div class="actions">
+          <a class="btn btn-ghost" href="./public/index.html">← Volver al inicio</a>
+          <a class="btn btn-primary" href="./profile-edit.html">Editar perfil</a>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- Lado izquierdo -->
+        <div class="profile-box">
+          <div class="avatar">
+            <img id="avatarImg" alt="Foto de perfil" />
+            <div class="fallback" id="avatarFallback">U</div>
+          </div>
+
+          <div class="name" id="fullName">
+            <div class="skeleton" style="width:70%; margin:0 auto;"></div>
+          </div>
+
+          <div class="meta" id="career">
+            <div class="skeleton" style="width:55%; margin:10px auto 0;"></div>
+          </div>
+
+          <div class="chip-row" id="roleRow" style="display:none;">
+            <div class="chip" id="roleChip"></div>
+          </div>
+        </div>
+
+        <!-- Lado derecho -->
+        <div class="grid">
+          <div class="section">
+            <h2>📌 Información</h2>
+            <div class="kv">
+              <div class="k">Correo</div>
+              <div class="v" id="email"><div class="skeleton" style="width:60%"></div></div>
+            </div>
+            <div class="kv">
+              <div class="k">ID</div>
+              <div class="v" id="userId"><div class="skeleton" style="width:85%"></div></div>
+            </div>
+          </div>
+
+          <div class="section">
+            <h2>✨ Intereses</h2>
+            <div id="interests" class="muted">Cargando…</div>
+          </div>
+
+          <div class="section">
+            <h2>⭐ Grupos favoritos</h2>
+            <div id="favoriteGroups" class="muted">Cargando…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script type="module" src="../js/modules/profile/profile.view.page.js"></script>
+</body>
+</html>

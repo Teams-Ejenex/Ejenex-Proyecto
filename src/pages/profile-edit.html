@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Perfil</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/formulario.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body class="bg-ejenex">
+  <div class="form-container">
+    <h2>Editar Perfil</h2>
+
+    <form id="profile-form">
+      <div class="form-group">
+        <label for="full_name">Nombre</label>
+        <input id="full_name" type="text" placeholder="Tu nombre" />
+      </div>
+
+      <div class="form-group">
+        <label for="career">Carrera</label>
+        <select id="career">
+          <option value="">Selecciona tu carrera</option>
+          <option value="Ingeniería en Software">Ingeniería en Software</option>
+          <option value="Negocios">Negocios</option>
+          <option value="Diseño">Diseño</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="interests">Intereses (separados por coma)</label>
+        <input id="interests" type="text" placeholder="IA, Robótica, Deportes..." />
+        <small>Se guardan como lista.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="favorite_groups">Grupos favoritos (IDs separados por coma)</label>
+        <input id="favorite_groups" type="text" placeholder="uuid1, uuid2, uuid3" />
+        <small>En Sprint 2 lo ideal es selector con catálogo.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="avatar">Foto de perfil</label>
+        <input id="avatar" type="file" accept="image/*" />
+        <small>Se sube a Storage.</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="reset" class="btn-reset">Reset</button>
+        <button id="btn-save" type="submit" class="btn-submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script type="module" src="../js/modules/profile/profile.edit.page.js"></script>
+</body>
+</html>

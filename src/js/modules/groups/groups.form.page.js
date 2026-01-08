@@ -1,5 +1,5 @@
 // src/js/modules/groups/groups.form.page.js
-import { postAdminGroups } from "./groups.api.js";
+import { postAdminGroups, uploadGroupLogo } from "./groups.api.js";
 
 /* ========= Toasts ========= */
 function toast(msg, type = "info") {
@@ -72,9 +72,7 @@ function readSocialLinks() {
     .map((row) => {
       const network = row.querySelector(".social-network")?.value?.trim() ?? "";
       const url = row.querySelector(".social-url")?.value?.trim() ?? "";
-
       if (!network || !url) return null;
-
       return { network, url };
     })
     .filter(Boolean);
@@ -82,17 +80,44 @@ function readSocialLinks() {
   return socialLinks.length ? socialLinks : null;
 }
 
+/* ========= Logo preview ========= */
+function initLogoPreview() {
+  const input = document.getElementById("logo_file");
+  const preview = document.getElementById("logo_preview");
+  if (!input || !preview) return;
+
+  input.addEventListener("change", () => {
+    const file = input.files?.[0];
+    if (!file) {
+      preview.src = "";
+      preview.style.display = "none";
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast("El archivo debe ser una imagen.", "error");
+      input.value = "";
+      preview.src = "";
+      preview.style.display = "none";
+      return;
+    }
+
+    const url = URL.createObjectURL(file);
+    preview.src = url;
+    preview.style.display = "block";
+  });
+}
+
 /* ========= Init / Events ========= */
 const form = document.getElementById("group-form");
+
 if (!form) {
   console.warn("No se encontró #group-form en la página.");
 } else {
+  initLogoPreview();
+
   const btnAdd = document.getElementById("btn-add-social");
-  if (btnAdd) {
-    btnAdd.addEventListener("click", addSocialRow);
-  } else {
-    console.warn("No se encontró #btn-add-social (botón +).");
-  }
+  if (btnAdd) btnAdd.addEventListener("click", addSocialRow);
 
   const socialContainer = document.getElementById("social-links");
   if (socialContainer) {
@@ -103,8 +128,6 @@ if (!form) {
         refreshRemoveButtons();
       }
     });
-  } else {
-    console.warn("No se encontró #social-links (contenedor de redes).");
   }
 
   refreshRemoveButtons();
@@ -115,8 +138,6 @@ if (!form) {
     const name = document.getElementById("nombre")?.value?.trim() ?? "";
     const short_description = document.getElementById("descripcion")?.value?.trim() ?? "";
     const email = document.getElementById("correo")?.value?.trim() ?? "";
-    const logo_url = (document.getElementById("logo")?.value?.trim() ?? "") || null;
-
     const category = document.getElementById("categoria")?.value?.trim() ?? "";
 
     if (!name || !short_description || !email || !category) {
@@ -126,21 +147,42 @@ if (!form) {
 
     const social_links = readSocialLinks();
 
+    const logoFile = document.getElementById("logo_file")?.files?.[0] ?? null;
+
     try {
       setLoading(true);
+
+      let logo_url = null;
+      if (logoFile) {
+        logo_url = await uploadGroupLogo(logoFile);
+      }
 
       const created = await postAdminGroups({
         name,
         short_description,
         email,
         logo_url,
-        category,       
-        social_links,   
+        category,
+        social_links,
         full_description: null,
       });
 
-      toast("Grupo guardado correctamente", "success");
+      toast("Grupo guardado correctamente ✅", "success");
+
+      // (opcional) espera poquito para que se vea el toast
+      setTimeout(() => {
+        window.location.href = "../public/index.html";
+        // si tu groups-create está en /src/pages/admin/ entonces ../public/index.html es correcto
+      }, 700);
+
       form.reset();
+
+      // Limpia preview
+      const preview = document.getElementById("logo_preview");
+      if (preview) {
+        preview.src = "";
+        preview.style.display = "none";
+      }
 
       console.log("Grupo creado:", created);
     } catch (err) {

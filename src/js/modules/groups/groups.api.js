@@ -1,16 +1,33 @@
-/*
-Archivo: groups.api.js
-Propósito:
-Encapsular todas las llamadas a Supabase relacionadas con grupos.
-
-Uso futuro:
-- Crear grupos (solo admin).
-- Listar grupos (público).
-- Centralizar acceso a la tabla "groups".
-*/
-
+// src/js/modules/groups/groups.api.js
 import { supabase } from "../../core/supabaseClient.js";
 import { isAdmin } from "../../core/auth.js";
+
+/**
+ * Sube logo a Storage y regresa URL pública
+ * Bucket: group-logos (public)
+ * Path: <userId>/<random>.<ext>
+ */
+export async function uploadGroupLogo(file) {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) throw new Error("No hay sesión activa");
+  if (!file) throw new Error("No se recibió archivo");
+
+  const ext = file.name.split(".").pop()?.toLowerCase() || "png";
+  const safeExt = ["png", "jpg", "jpeg", "webp"].includes(ext) ? ext : "png";
+
+  const name = `${crypto.randomUUID()}.${safeExt}`;
+  const path = `${session.user.id}/${name}`;
+
+  const { error: upErr } = await supabase
+    .storage
+    .from("group-logos")
+    .upload(path, file, { upsert: false, contentType: file.type });
+
+  if (upErr) throw new Error(upErr.message);
+
+  const { data } = supabase.storage.from("group-logos").getPublicUrl(path);
+  return data.publicUrl;
+}
 
 export async function postAdminGroups(data) {
   const ok = await isAdmin();
@@ -24,7 +41,7 @@ export async function postAdminGroups(data) {
       full_description: data.full_description ?? null,
       email: data.email ?? null,
       logo_url: data.logo_url ?? null,
-      categoria: data.category,         
+      categoria: data.category,         // tu columna se llama "categoria"
       social_links: data.social_links ?? null,
     }])
     .select()

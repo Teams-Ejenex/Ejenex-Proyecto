@@ -44,8 +44,12 @@
             </div>
 
             <div class="form-group">
-                <label for="logo">Logo del grupo (URL)</label>
-                <input type="url" id="logo" name="logo" placeholder="https://..." />
+                <label for="logo_file">Logo del grupo (imagen)</label>
+                <input type="file" id="logo_file" name="logo_file" accept="image/*" />
+                <small>Se sube a Storage.</small>
+
+                <img id="logo_preview" alt="Vista previa del logo"
+                    style="display:none;margin-top:10px;max-width:120px;border-radius:12px;border:1px solid rgba(255,255,255,.15);" />
             </div>
 
             <div class="form-group">
@@ -72,7 +76,7 @@
                         <button type="button" class="btn-social-remove" title="Eliminar">✕</button>
                     </div>
                 </div>
-           
+
                 <button type="button" id="btn-add-social" class="btn-add-social">
                     + Agregar otra red
                 </button>

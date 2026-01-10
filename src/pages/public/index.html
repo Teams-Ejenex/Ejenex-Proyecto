@@ -1,412 +1,116 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
-  <title>Talent Land México | Grupos Estudiantiles</title>
+  <title>Talent Land México | EJENEX</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg-1: #040214;
-      --bg-2: #071033;
-      --accent-1: #7c3aed;
-      --accent-2: #22d3ee;
-      --muted: rgba(255, 255, 255, 0.78);
-      --radius: 14px;
-      --container-max: 1100px;
+    :root{
+      --bg-1:#040214; --bg-2:#071033;
+      --accent-1:#7c3aed; --accent-2:#22d3ee;
+      --muted: rgba(255,255,255,.78);
+      --radius:14px;
+      --container-max:1100px;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0 }
-    html, body { height: 100% }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-      background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
-      color: #e6eef6;
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.45;
-      min-height: 100vh;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+      min-height:100vh;
     }
+    .container{max-width:var(--container-max);margin:0 auto;padding:0 1rem}
 
-    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 1rem; }
-
-    /* Navbar */
-    .navbar {
-      width: 90%;
-      max-width: 1100px;
-      margin: 20px auto;
-      background: linear-gradient(90deg, #6e7480, #5a5f66);
-      border-radius: 30px;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    /* ===== NAVBAR (igual que antes) ===== */
+    .navbar{
+      width:90%;max-width:1100px;margin:20px auto;
+      background:linear-gradient(90deg,#6e7480,#5a5f66);
+      border-radius:30px;padding:10px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:1rem;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
     }
-
-    .navbar .logo { color: #fff; font-weight: 800; font-size: 1rem; display: flex; align-items: center; gap: 10px }
-    .navbar .menu { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-    .navbar .menu a {
-      text-decoration: none;
-      color: #fff;
-      font-size: .95rem;
-      padding: 6px 12px;
-      border-radius: 14px;
-      transition: background .18s ease;
+    .navbar .logo{color:#fff;font-weight:800;font-size:1rem;display:flex;align-items:center;gap:10px}
+    .navbar .menu{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    .navbar .menu a{
+      text-decoration:none;color:#fff;font-size:.95rem;
+      padding:6px 12px;border-radius:14px;transition:background .18s ease;
     }
-    .navbar .menu a:hover { background: rgba(255, 255, 255, 0.08) }
-    .navbar .menu .active {
-      background: linear-gradient(90deg, #8e2aa6, #7c3aed);
-      font-weight: 700;
-      box-shadow: 0 8px 20px rgba(124, 58, 237, 0.12)
+    .navbar .menu a:hover{background:rgba(255,255,255,.08)}
+    .navbar .menu .active{
+      background:linear-gradient(90deg,#8e2aa6,#7c3aed);
+      font-weight:700;
+      box-shadow:0 8px 20px rgba(124,58,237,.12)
     }
-
-    /* Hero */
-    .hero { margin: 1rem auto 2rem; max-width: 920px; }
-    .hero .container { display: flex; flex-direction: column; gap: 1.5rem; align-items: center; padding: 2rem; text-align: center; }
-    .hero-content h1 {
-      font-size: 2.4rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: .6rem
-    }
-    .hero-tagline { color: rgba(230, 238, 246, 0.9); font-size: 1.05rem; margin-bottom: .8rem; font-weight: 600 }
-
-    /* Secciones */
-    .grupos-section { margin: 2.2rem auto; max-width: 900px; padding: 0 1rem; }
-    .grupos-section h2 { text-align: center; color: #fff; font-size: 1.8rem; margin-bottom: 1rem }
-    .participacion-section {
-      max-width: 920px;
-      margin: 2rem auto;
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.06), rgba(34, 211, 238, 0.06));
-      border-radius: var(--radius);
-      padding: 1.8rem;
-      text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.05)
-    }
-    .participacion-section h2 { color: #fff; margin-bottom: .6rem }
-    .participacion-section p { color: var(--muted); line-height: 1.6 }
-
-    .footer { margin-top: 2.5rem; padding: 1.6rem 0; text-align: center; color: rgba(230, 238, 246, 0.8) }
-
-    /* Botones */
-    .btn {
-      display: inline-block;
-      padding: .8rem 1.6rem;
-      border-radius: 999px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all .18s ease
-    }
-    .btn-primario { background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); color: #030617; }
 
     /* User menu */
-    .user-menu { position: relative; }
-    .user-btn {
-      width: 34px; height: 34px; border-radius: 50%;
-      border: 0; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      background: #f0f0f0; overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    .user-menu{position:relative}
+    .user-btn{
+      width:34px;height:34px;border-radius:50%;
+      border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      background:#f0f0f0;overflow:hidden;
+      box-shadow:0 6px 18px rgba(0,0,0,.25);
     }
-    .user-fallback { color: #020617; font-weight: 800; font-size: .95rem; user-select: none; }
-    .user-avatar { width: 100%; height: 100%; object-fit: cover; display: none; }
-
-    .user-dropdown {
-      position: absolute; right: 0; top: 44px; min-width: 200px;
-      background: rgba(18, 7, 30, .92);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 14px;
-      padding: 8px;
-      display: none;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
-      backdrop-filter: blur(10px);
-      z-index: 9999;
+    .user-fallback{color:#020617;font-weight:800;font-size:.95rem;user-select:none}
+    .user-avatar{width:100%;height:100%;object-fit:cover;display:none}
+    .user-dropdown{
+      position:absolute;right:0;top:44px;min-width:200px;
+      background:rgba(18,7,30,.92);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;padding:8px;display:none;
+      box-shadow:0 18px 50px rgba(0,0,0,.45);
+      backdrop-filter:blur(10px);z-index:9999;
     }
-    .user-dropdown.open { display: block; }
-    .user-dropdown .divider { height: 1px; background: rgba(255, 255, 255, 0.10); margin: 6px 6px; }
-
-    .user-dropdown a, .user-dropdown button {
-      width: 100%;
-      display: block;
-      padding: 10px 12px;
-      border-radius: 10px;
-      text-decoration: none;
-      border: 0;
-      background: transparent;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: left;
-      font-family: inherit;
+    .user-dropdown.open{display:block}
+    .user-dropdown .divider{height:1px;background:rgba(255,255,255,.10);margin:6px 6px}
+    .user-dropdown a,.user-dropdown button{
+      width:100%;display:block;padding:10px 12px;border-radius:10px;
+      text-decoration:none;border:0;background:transparent;color:#fff;font-weight:600;
+      cursor:pointer;text-align:left;font-family:inherit;
     }
-    .user-dropdown a:hover, .user-dropdown button:hover { background: rgba(255, 255, 255, 0.08); }
+    .user-dropdown a:hover,.user-dropdown button:hover{background:rgba(255,255,255,.08)}
 
-    /* ===== Listado Grupos ===== */
-    #groupsSection { display: none; }
-
-    .groups-toolbar {
-      max-width: 900px;
-      margin: 0 auto 1rem;
-      display: flex;
-      gap: .8rem;
-      justify-content: center;
-      flex-wrap: wrap;
+    /* Hero */
+    .hero{margin:1rem auto 2rem;max-width:920px}
+    .hero .container{display:flex;flex-direction:column;gap:1.5rem;align-items:center;padding:2rem;text-align:center}
+    .hero-content h1{
+      font-size:2.4rem;font-weight:800;
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      margin-bottom:.6rem
     }
+    .hero-tagline{color:rgba(230,238,246,.9);font-size:1.05rem;margin-bottom:.8rem;font-weight:600}
 
-    .groups-toolbar input,
-    .groups-toolbar select {
-      padding: .75rem 1rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      background: rgba(255, 255, 255, .06);
-      color: #fff;
-      outline: none;
+    /* Secciones */
+    .participacion-section{
+      max-width:920px;margin:2rem auto;
+      background:linear-gradient(135deg, rgba(124,58,237,.06), rgba(34,211,238,.06));
+      border-radius:var(--radius);padding:1.8rem;text-align:center;
+      border:1px solid rgba(255,255,255,.05)
     }
+    .participacion-section h2{color:#fff;margin-bottom:.6rem}
+    .participacion-section p{color:var(--muted);line-height:1.6}
 
-    .groups-toolbar input { width: min(520px, 100%); }
+    .footer{margin-top:2.5rem;padding:1.6rem 0;text-align:center;color:rgba(230,238,246,.8)}
 
-    .groups-grid {
-      max-width: 920px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-      padding-bottom: 1.2rem;
+    .btn{
+      display:inline-block;padding:.8rem 1.6rem;border-radius:999px;font-weight:700;
+      text-decoration:none;cursor:pointer;border:none;transition:all .18s ease
     }
-
-    .group-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius);
-      padding: 1rem;
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.30);
-      transition: transform .18s ease, box-shadow .18s ease;
-      cursor: pointer;
-    }
-
-    .group-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
-    }
-
-    .group-head { display: flex; align-items: center; gap: .8rem; margin-bottom: .6rem; }
-    .group-logo {
-      width: 44px; height: 44px; border-radius: 14px; object-fit: cover;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.06);
-      flex: 0 0 auto;
-    }
-    .group-title { font-weight: 800; color: #fff; line-height: 1.2; }
-
-    .group-badge {
-      display: inline-flex;
-      margin-top: .3rem;
-      font-size: .78rem;
-      padding: .25rem .55rem;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(124, 58, 237, .25), rgba(34, 211, 238, .20));
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      color: rgba(255, 255, 255, .92);
-      font-weight: 700;
-    }
-
-    .group-desc {
-      color: rgba(230, 238, 246, 0.88);
-      font-weight: 600;
-      font-size: .95rem;
-      margin: .6rem 0 .75rem;
-      min-height: 46px;
-    }
-
-    .group-actions { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
-    .group-link {
-      display: inline-flex; align-items: center; gap: .35rem;
-      padding: .45rem .7rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: .85rem;
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      background: rgba(255, 255, 255, 0.06);
-    }
-    .group-link:hover { background: rgba(255, 255, 255, 0.10); }
-
-    /* Banner error */
-    .banner-error {
-      width: 90%;
-      max-width: 1100px;
-      margin: 0 auto 10px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(239, 68, 68, .12);
-      color: rgba(255,255,255,.92);
-      display: none;
-    }
-
-    /* ===== Modal ===== */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 99999;
-    }
-    .modal-backdrop.open { display: flex; }
-
-    .modal {
-      width: min(860px, 100%);
-      background: rgba(18, 7, 30, .92);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 18px;
-      box-shadow: 0 25px 80px rgba(0,0,0,.55);
-      backdrop-filter: blur(12px);
-      overflow: hidden;
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-    }
-
-    .modal-title-wrap h3 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin: 0;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .modal-subtitle {
-      margin-top: 4px;
-      color: rgba(230,238,246,.85);
-      font-weight: 600;
-      font-size: .95rem;
-    }
-
-    .modal-close {
-      border: 0;
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .modal-close:hover { background: rgba(255,255,255,.12); }
-
-    .modal-body { padding: 16px; }
-
-    .modal-hero {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-
-    .modal-hero img {
-      width: 96px;
-      height: 96px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      flex: 0 0 auto;
-    }
-
-    .modal-desc {
-      color: rgba(230,238,246,.88);
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .modal-section {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,.10);
-    }
-
-    .modal-section h4 {
-      margin-bottom: 10px;
-      font-size: 1rem;
-    }
-
-    .social-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .social-chips a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: 700;
-      font-size: .9rem;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-    }
-
-    .social-chips a:hover { background: rgba(255,255,255,.10); }
-
-    @media (max-width:980px) { .groups-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width:620px) { .groups-grid { grid-template-columns: 1fr; } }
+    .btn-primario{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#030617}
   </style>
 </head>
 
 <body>
 
-  <div class="banner-error" id="bannerError"></div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="logo">EJENEX</div>
-
-    <div class="menu">
-      <a href="#" class="active" id="navHome">Inicio</a>
-      <a href="#" id="navGroups">Grupos estudiantiles</a>
-      <a href="#">Material</a>
-      <a href="#">Sobre nosotros</a>
-      <a href="#">FeTecmi</a>
-    </div>
-
-    <div class="user-menu">
-      <button class="user-btn" id="userBtn" aria-label="Usuario" type="button" title="Usuario">
-        <span class="user-fallback" id="userFallback">U</span>
-        <img class="user-avatar" id="userAvatar" alt="Foto de perfil" />
-      </button>
-
-      <div class="user-dropdown" id="userDropdown">
-        <a href="../profile.html">Ver perfil</a>
-        <a href="../profile-edit.html">Editar perfil</a>
-        <a href="../admin/groups-create.html" id="btnCreateGroup" hidden>Crear grupo</a>
-        <div class="divider"></div>
-        <button type="button" id="btnLogout">Cerrar sesión</button>
-      </div>
-    </div>
-  </nav>
+  <!-- Navbar montada por JS -->
+  <div id="navbarMount"></div>
 
   <main>
     <section class="hero" id="heroSection">
@@ -415,30 +119,6 @@
           <h1>Todos los datos de la nueva era</h1>
           <p class="hero-tagline">Conecta, colabora y crece con los grupos estudiantiles</p>
         </div>
-      </div>
-    </section>
-
-    <section class="grupos-section" id="groupsSection">
-      <h2>Grupos estudiantiles</h2>
-
-      <div class="groups-toolbar">
-        <input id="groupsSearch" type="text" placeholder="Buscar grupo..." />
-        <select id="groupsCategory">
-          <option value="">Todas las categorías</option>
-          <option value="Federación de Estudiantes">Federación de Estudiantes</option>
-          <option value="De Escuela">De Escuela</option>
-          <option value="Capítulo Estudiantil">Capítulo Estudiantil</option>
-        </select>
-      </div>
-
-      <div style="text-align:center;color:rgba(255,255,255,.75);margin-bottom:1rem;display:none;" id="groupsLoading">
-        Cargando grupos...
-      </div>
-
-      <div class="groups-grid container" id="groupsGrid"></div>
-
-      <div id="groupsEmpty" style="display:none;text-align:center;color:rgba(255,255,255,.75);margin-top:1rem;">
-        No hay grupos para mostrar.
       </div>
     </section>
 
@@ -458,385 +138,18 @@
     </div>
   </footer>
 
-  <!-- ===== Modal Detalle Grupo ===== -->
-  <div class="modal-backdrop" id="groupModalBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="groupModalTitle">
-      <div class="modal-header">
-        <div class="modal-title-wrap">
-          <h3 id="groupModalTitle">Grupo</h3>
-          <p class="modal-subtitle" id="groupModalCategory"></p>
-        </div>
-        <button class="modal-close" id="groupModalClose" type="button" aria-label="Cerrar">✕</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="modal-hero">
-          <img id="groupModalLogo" alt="Logo del grupo" />
-          <div class="modal-hero-info">
-            <p class="modal-desc" id="groupModalDesc"></p>
-            <div class="modal-actions">
-              <a class="btn btn-primario" id="groupModalEmail" href="#" target="_blank" rel="noopener">Enviar correo</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-section" id="groupModalSocialWrap" style="display:none;">
-          <h4>Redes sociales</h4>
-          <div class="social-chips" id="groupModalSocial"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script type="module">
-    console.log("INDEX: script cargó ✅");
+    import { mountNavbar } from "../../js/modules/ui/navbar.js";
 
-    const bannerError = document.getElementById("bannerError");
-    function showBanner(msg) {
-      bannerError.textContent = msg;
-      bannerError.style.display = "block";
-    }
-
-    // Import robusto
-    let supabase;
-    try {
-      ({ supabase } = await import("../../js/core/supabaseClient.js"));
-      console.log("INDEX: supabaseClient import OK ✅");
-    } catch (e) {
-      console.error(e);
-      showBanner("No se pudo cargar supabaseClient.js. Revisa la ruta del import en index.html.");
-      throw e;
-    }
-
-    /* ============ USER MENU ============ */
-    const userBtn = document.getElementById("userBtn");
-    const userFallback = document.getElementById("userFallback");
-    const userAvatar = document.getElementById("userAvatar");
-    const dropdown = document.getElementById("userDropdown");
-    const btnLogout = document.getElementById("btnLogout");
-    const btnCreateGroup = document.getElementById("btnCreateGroup");
-
-    const LOGIN_URL = "./login.html";
-
-    function closeDropdown() { dropdown.classList.remove("open"); }
-    function toggleDropdown() { dropdown.classList.toggle("open"); }
-
-    function setAvatar(url, name) {
-      if (url) {
-        userAvatar.src = url;
-        userAvatar.style.display = "block";
-        userFallback.style.display = "none";
-      } else {
-        userAvatar.style.display = "none";
-        userFallback.style.display = "inline";
-        userFallback.textContent = name ? name[0].toUpperCase() : "U";
-      }
-    }
-
-    async function initUser() {
-      closeDropdown();
-
-      const { data } = await supabase.auth.getSession();
-      const session = data?.session;
-
-      // SIN SESIÓN => click manda a login
-      if (!session?.user) {
-        setAvatar(null, "U");
-        if (btnCreateGroup) btnCreateGroup.hidden = true;
-
-        userBtn.onclick = () => {
-          window.location.href = LOGIN_URL;
-        };
-        return;
-      }
-
-      // CON SESIÓN => dropdown
-      userBtn.onclick = (e) => {
-        e.stopPropagation();
-        toggleDropdown();
-      };
-
-      // Click fuera cierra (solo una vez)
-      document.onclick = () => closeDropdown();
-
-      // ESC cierra
-      document.onkeydown = (e) => {
-        if (e.key === "Escape") closeDropdown();
-      };
-
-      // Cargar avatar + role
-      try {
-        const { data: p, error } = await supabase
-          .from("profiles")
-          .select("full_name, profile_picture_url, role")
-          .eq("id", session.user.id)
-          .single();
-
-        if (error) throw error;
-
-        const name = (p?.full_name || "U").trim() || "U";
-        setAvatar(p?.profile_picture_url || null, name);
-
-        if (btnCreateGroup) btnCreateGroup.hidden = (p?.role !== "admin");
-      } catch (e) {
-        console.warn("No se pudo cargar perfil:", e.message);
-        setAvatar(null, "U");
-        if (btnCreateGroup) btnCreateGroup.hidden = true;
-      }
-
-      // ✅ Logout: cerrar sesión y recargar página (feedback visual)
-      btnLogout.onclick = async () => {
-        try {
-          await supabase.auth.signOut();
-        } finally {
-          closeDropdown();
-          window.location.reload();
-        }
-      };
-    }
-
-    await initUser();
-    supabase.auth.onAuthStateChange(() => initUser());
-
-    /* ============ GROUPS VIEW ============ */
-    const navHome = document.getElementById("navHome");
-    const navGroups = document.getElementById("navGroups");
-
-    const heroSection = document.getElementById("heroSection");
-    const participacionSection = document.getElementById("participacionSection");
-    const groupsSection = document.getElementById("groupsSection");
-
-    const groupsGrid = document.getElementById("groupsGrid");
-    const groupsEmpty = document.getElementById("groupsEmpty");
-    const groupsLoading = document.getElementById("groupsLoading");
-    const groupsSearch = document.getElementById("groupsSearch");
-    const groupsCategory = document.getElementById("groupsCategory");
-
-    // cache para modal + filtros
-    let allGroups = [];
-    let loaded = false;
-
-    function showHome() {
-      groupsSection.style.display = "none";
-      heroSection.style.display = "block";
-      participacionSection.style.display = "block";
-    }
-
-    function showGroups() {
-      groupsSection.style.display = "block";
-      heroSection.style.display = "none";
-      participacionSection.style.display = "none";
-    }
-
-    function escapeHtml(str = "") {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function socialLabel(network) {
-      const map = {
-        instagram: "Instagram",
-        facebook: "Facebook",
-        twitter: "X/Twitter",
-        tiktok: "TikTok",
-        youtube: "YouTube",
-      };
-      return map[network] || network;
-    }
-
-    function socialIcon(network) {
-      const map = {
-        instagram: "📷",
-        facebook: "📘",
-        twitter: "𝕏",
-        tiktok: "🎵",
-        youtube: "▶️",
-      };
-      return map[network] || "🔗";
-    }
-
-    const fallbackLogo =
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' rx='16' fill='%23121b3a'/%3E%3Ctext x='40' y='48' text-anchor='middle' fill='%23ffffff' font-size='26' font-family='Arial'%3ELogo%3C/text%3E%3C/svg%3E";
-
-    function render(groups) {
-      if (!groups?.length) {
-        groupsGrid.innerHTML = "";
-        groupsEmpty.style.display = "block";
-        return;
-      }
-      groupsEmpty.style.display = "none";
-
-      groupsGrid.innerHTML = groups.map(g => {
-        const name = escapeHtml(g.name || "Grupo");
-        const cat = escapeHtml(g.categoria || "");
-        const desc = escapeHtml(g.short_description || "");
-        const logo = g.logo_url || "";
-
-        // 👇 IMPORTANTE: data-group-id para abrir modal
-        return `
-          <article class="group-card" data-group-id="${escapeHtml(String(g.id))}">
-            <div class="group-head">
-              <img class="group-logo" src="${logo || fallbackLogo}" alt="Logo ${name}" />
-              <div>
-                <div class="group-title">${name}</div>
-                ${cat ? `<div class="group-badge">${cat}</div>` : ""}
-              </div>
-            </div>
-
-            <div class="group-desc">${desc}</div>
-
-            <div class="group-actions">
-              ${g.email ? `<a class="group-link" href="mailto:${escapeHtml(g.email)}" onclick="event.stopPropagation()">✉️ Correo</a>` : ""}
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    function applyFilters() {
-      const q = (groupsSearch.value || "").trim().toLowerCase();
-      const cat = (groupsCategory.value || "").trim();
-
-      const filtered = allGroups.filter(g => {
-        const okText =
-          !q ||
-          (g.name || "").toLowerCase().includes(q) ||
-          (g.short_description || "").toLowerCase().includes(q);
-
-        const okCat = !cat || (g.categoria || "") === cat;
-        return okText && okCat;
-      });
-
-      render(filtered);
-    }
-
-    async function loadGroupsOnce() {
-      if (loaded) return;
-      loaded = true;
-
-      groupsLoading.style.display = "block";
-      groupsEmpty.style.display = "none";
-      groupsGrid.innerHTML = "";
-
-      // ✅ incluye social_links para el modal
-      const { data, error } = await supabase
-        .from("groups")
-        .select("id, name, short_description, full_description, email, logo_url, categoria, social_links, created_at")
-        .order("created_at", { ascending: false });
-
-      groupsLoading.style.display = "none";
-
-      if (error) {
-        console.error("Error cargando groups:", error.message);
-        showBanner("No se pudieron cargar los grupos. Revisa consola (RLS o query).");
-        allGroups = [];
-        render([]);
-        return;
-      }
-
-      allGroups = data || [];
-      applyFilters();
-    }
-
-    navHome.addEventListener("click", (e) => { e.preventDefault(); showHome(); });
-    navGroups.addEventListener("click", async (e) => {
-      e.preventDefault();
-      showGroups();
-      await loadGroupsOnce();
-    });
-
-    groupsSearch.addEventListener("input", applyFilters);
-    groupsCategory.addEventListener("change", applyFilters);
-
-    /* ============ MODAL DETALLE GRUPO ============ */
-    const groupModalBackdrop = document.getElementById("groupModalBackdrop");
-    const groupModalClose = document.getElementById("groupModalClose");
-    const groupModalTitle = document.getElementById("groupModalTitle");
-    const groupModalCategory = document.getElementById("groupModalCategory");
-    const groupModalLogo = document.getElementById("groupModalLogo");
-    const groupModalDesc = document.getElementById("groupModalDesc");
-    const groupModalEmail = document.getElementById("groupModalEmail");
-    const groupModalSocialWrap = document.getElementById("groupModalSocialWrap");
-    const groupModalSocial = document.getElementById("groupModalSocial");
-
-    function openGroupModal(group) {
-      groupModalTitle.textContent = group?.name ?? "Grupo";
-      groupModalCategory.textContent = group?.categoria ?? "Sin categoría";
-
-      const desc = group?.full_description || group?.short_description || "";
-      groupModalDesc.textContent = desc;
-
-      const logo = group?.logo_url || "";
-      if (logo) {
-        groupModalLogo.src = logo;
-        groupModalLogo.style.display = "block";
-      } else {
-        groupModalLogo.src = fallbackLogo;
-        groupModalLogo.style.display = "block";
-      }
-
-      const email = group?.email || "";
-      if (email) {
-        groupModalEmail.href = `mailto:${email}`;
-        groupModalEmail.style.display = "inline-block";
-      } else {
-        groupModalEmail.href = "#";
-        groupModalEmail.style.display = "none";
-      }
-
-      // Redes sociales
-      const links = Array.isArray(group?.social_links) ? group.social_links : [];
-      groupModalSocial.innerHTML = "";
-
-      if (links.length) {
-        groupModalSocialWrap.style.display = "block";
-        links.forEach(({ network, url }) => {
-          if (!network || !url) return;
-
-          const n = String(network).toLowerCase();
-          const a = document.createElement("a");
-          a.href = url;
-          a.target = "_blank";
-          a.rel = "noopener";
-          a.innerHTML = `<span>${socialIcon(n)}</span> ${escapeHtml(socialLabel(n))}`;
-          groupModalSocial.appendChild(a);
-        });
-      } else {
-        groupModalSocialWrap.style.display = "none";
-      }
-
-      groupModalBackdrop.classList.add("open");
-      groupModalBackdrop.setAttribute("aria-hidden", "false");
-    }
-
-    function closeGroupModal() {
-      groupModalBackdrop.classList.remove("open");
-      groupModalBackdrop.setAttribute("aria-hidden", "true");
-    }
-
-    groupModalClose.addEventListener("click", closeGroupModal);
-    groupModalBackdrop.addEventListener("click", (e) => {
-      if (e.target === groupModalBackdrop) closeGroupModal();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeGroupModal();
-    });
-
-    // Delegación: click en cualquier card abre modal
-    groupsGrid.addEventListener("click", (e) => {
-      const card = e.target.closest("[data-group-id]");
-      if (!card) return;
-
-      const id = card.getAttribute("data-group-id");
-      const group = allGroups.find(g => String(g.id) === String(id));
-      if (group) openGroupModal(group);
+    mountNavbar({
+      active: "home",
+      links: {
+        home: "./index.html",
+        groups: "./groups.html",
+        forums: "./forums.html"
+      },
+      loginUrl: "./login.html"
     });
   </script>
 </body>
-
 </html>

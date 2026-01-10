@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>EJENEX | Hilos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <style>
+    :root{--bg-1:#040214;--bg-2:#071033;--accent-1:#7c3aed;--accent-2:#22d3ee;--radius:14px;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:#e6eef6;min-height:100vh;-webkit-font-smoothing: antialiased;line-height:1.45}
+    .container{max-width:1100px;margin:0 auto;padding:0 1rem}
+
+    /* ===== NAVBAR (igual que index) ===== */
+    .navbar {
+      width: 90%;
+      max-width: 1100px;
+      margin: 20px auto;
+      background: linear-gradient(90deg, #6e7480, #5a5f66);
+      border-radius: 30px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+    .navbar .logo { color:#fff;font-weight:800;font-size:1rem;display:flex;align-items:center;gap:10px }
+    .navbar .menu { display:flex;gap:14px;align-items:center;flex-wrap:wrap }
+    .navbar .menu a {
+      text-decoration:none;color:#fff;font-size:.95rem;
+      padding:6px 12px;border-radius:14px;transition:background .18s ease;
+    }
+    .navbar .menu a:hover{background:rgba(255,255,255,.08)}
+    .navbar .menu .active{
+      background:linear-gradient(90deg,#8e2aa6,#7c3aed);
+      font-weight:700;
+      box-shadow:0 8px 20px rgba(124,58,237,.12)
+    }
+
+    /* User menu */
+    .user-menu{position:relative}
+    .user-btn{
+      width:34px;height:34px;border-radius:50%;
+      border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+      background:#f0f0f0;overflow:hidden;
+      box-shadow:0 6px 18px rgba(0,0,0,.25);
+    }
+    .user-fallback{color:#020617;font-weight:800;font-size:.95rem;user-select:none}
+    .user-avatar{width:100%;height:100%;object-fit:cover;display:none}
+    .user-dropdown{
+      position:absolute;right:0;top:44px;min-width:200px;
+      background:rgba(18,7,30,.92);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;padding:8px;display:none;
+      box-shadow:0 18px 50px rgba(0,0,0,.45);
+      backdrop-filter:blur(10px);z-index:9999;
+    }
+    .user-dropdown.open{display:block}
+    .user-dropdown .divider{height:1px;background:rgba(255,255,255,.10);margin:6px 6px}
+    .user-dropdown a,.user-dropdown button{
+      width:100%;display:block;padding:10px 12px;border-radius:10px;
+      text-decoration:none;border:0;background:transparent;color:#fff;font-weight:600;
+      cursor:pointer;text-align:left;font-family:inherit;
+    }
+    .user-dropdown a:hover,.user-dropdown button:hover{background:rgba(255,255,255,.08)}
+
+    /* ===== Página ===== */
+    .head{max-width:920px;margin:8px auto 10px;text-align:center;padding:0 1rem}
+    .head h1{
+      font-size:1.8rem;font-weight:900;margin-bottom:.3rem;
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .sub{color:rgba(255,255,255,.75);font-weight:600}
+
+    .toolbar{max-width:920px;margin:12px auto;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;padding:0 1rem}
+    .toolbar input{
+      padding:.75rem 1rem;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);color:#fff;outline:none;
+      width:min(520px,100%);
+    }
+    .btn{
+      padding:.75rem 1.1rem;border-radius:999px;border:0;cursor:pointer;font-weight:900;
+      color:#030617;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+    }
+
+    .grid{max-width:920px;margin:0 auto;display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr));padding:0 1rem 1.2rem}
+    .card{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      padding:1rem;
+      box-shadow:0 14px 40px rgba(0,0,0,.30);
+      transition:transform .18s ease, box-shadow .18s ease;
+      cursor:pointer;
+    }
+    .card:hover{transform:translateY(-3px);box-shadow:0 18px 55px rgba(0,0,0,.45)}
+    .title{font-weight:900}
+    .meta{margin-top:.35rem;color:rgba(255,255,255,.72);font-weight:700;font-size:.85rem}
+    .body{margin-top:.6rem;color:rgba(230,238,246,.88);font-weight:600}
+    .actions{margin-top:.8rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+    .pill{
+      display:inline-flex;gap:.35rem;align-items:center;
+      padding:.45rem .7rem;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:#fff;font-weight:800;font-size:.85rem;
+    }
+
+    .loading,.empty{text-align:center;color:rgba(255,255,255,.75);margin:10px auto;display:none}
+
+    /* Modal crear hilo */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:1rem}
+    .modal{
+      width:min(620px,100%);
+      background:rgba(18,7,30,.96);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;padding:14px;
+      box-shadow:0 22px 70px rgba(0,0,0,.55);
+      backdrop-filter:blur(12px);
+    }
+    .modal h3{margin:6px 0 10px;font-weight:900}
+    .row{display:flex;flex-direction:column;gap:.45rem;margin:.7rem 0}
+    .row input,.row textarea{
+      padding:.8rem 1rem;border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:#fff;outline:none;
+    }
+    .row textarea{min-height:140px;resize:vertical}
+    .modal-actions{display:flex;gap:.6rem;justify-content:flex-end;margin-top:10px}
+    .btn-ghost{
+      background:rgba(255,255,255,.08);
+      color:#fff;border:1px solid rgba(255,255,255,.12);
+      padding:.7rem 1rem;border-radius:999px;font-weight:900;cursor:pointer
+    }
+
+    @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar montada por JS -->
+  <div id="navbarMount"></div>
+
+  <header class="head">
+    <h1 id="forumTitle">Foro</h1>
+    <div class="sub" id="forumDesc"></div>
+  </header>
+
+  <section class="toolbar">
+    <input id="search" placeholder="Buscar hilo..." />
+    <button class="btn" id="btnNewThread">+ Crear hilo</button>
+  </section>
+
+  <div class="loading" id="loading">Cargando hilos...</div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">No hay hilos para mostrar.</div>
+
+  <!-- Modal crear hilo -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h3>Crear hilo</h3>
+      <div class="row">
+        <label>Título *</label>
+        <input id="threadTitle" maxlength="150" placeholder="Título del hilo" />
+      </div>
+      <div class="row">
+        <label>Contenido *</label>
+        <textarea id="threadBody" placeholder="Escribe tu publicación..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="btnCancel">Cancelar</button>
+        <button class="btn" id="btnCreate">Publicar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  <script type="module">
+    import { mountNavbar } from "../../js/modules/ui/navbar.js";
+    mountNavbar({
+      active: "forums",
+      links: {
+        home: "./index.html",
+        groups: "./index.html",
+        forums: "./forums.html"
+      },
+      loginUrl: "./login.html"
+    });
+  </script>
+
+  <script type="module" src="../../js/modules/forums/forum.page.js"></script>
+</body>
+</html>

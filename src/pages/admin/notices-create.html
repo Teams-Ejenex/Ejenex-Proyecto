@@ -1,0 +1,30 @@
+<form id="noticeForm">
+  <input placeholder="Título" id="title"><br>
+  <textarea id="description"></textarea><br>
+  <input type="datetime-local" id="start"><br>
+  <input type="datetime-local" id="end"><br>
+  <select id="status">
+    <option value="draft">Borrador</option>
+    <option value="published">Publicado</option>
+  </select>
+  <button>Guardar</button>
+</form>
+
+<script type="module">
+import { createNewNotice } from '../../js/modules/notices/notices.controller.js';
+
+document.getElementById('noticeForm').onsubmit = async e => {
+  e.preventDefault();
+
+  await createNewNotice({
+    title: title.value,
+    description: description.value,
+    start_date: start.value,
+    end_date: end.value,
+    status: status.value
+  });
+
+  alert('Aviso creado');
+  location.href = 'notices-list.html';
+};
+</script>

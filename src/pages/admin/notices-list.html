@@ -1,0 +1,19 @@
+<h2>Avisos</h2>
+<button onclick="location.href='notices-create.html'">Crear aviso</button>
+<table id="notices-table"></table>
+
+<script type="module">
+import { loadAdminNotices } from '../../js/modules/notices/notices.controller.js';
+
+const table = document.getElementById('notices-table');
+const notices = await loadAdminNotices();
+
+table.innerHTML = notices.map(n => `
+<tr>
+  <td>${n.title}</td>
+  <td>${n.status}</td>
+  <td>${n.start_date}</td>
+  <td><button onclick="deleteNotice('${n.id}')">Eliminar</button></td>
+</tr>
+`).join('');
+</script>
